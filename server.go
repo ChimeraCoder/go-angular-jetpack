@@ -51,7 +51,6 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", serveAngularHome)
-	r.HandleFunc("/profile", serveHome).Methods("GET")
 	http.Handle("/static/", http.FileServer(http.Dir("public")))
 	http.Handle("/", r)
 

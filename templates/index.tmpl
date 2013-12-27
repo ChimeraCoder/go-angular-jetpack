@@ -1,0 +1,32 @@
+[[define "body"]]
+<p>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+
+    Lorem Ipsum Angularum
+    <div  ng-controller="PhoneListCtrl">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span2">
+                    <!--Sidebar content-->
+
+                    Search: <input ng-model="query">
+
+                </div>
+                <div class="span10">
+                    <!--Body content-->
+
+                    <ul class="phones">
+                        <li ng-repeat="phone in phones | filter:query">
+                        {{phone.name}}
+                        <p>{{phone.snippet}}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+[[end]]
+

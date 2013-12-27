@@ -1,0 +1,39 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" type="text/css" />
+        <title>Lorem Ipsum</title>
+    </head>
+    <body>
+
+        <!-- Masthead ================================================== -->
+        <header class="jumbotron subhead" id="overview">
+        <div class="row">
+            <div class="span6">
+                <h1>lorem ispum</h1>
+                <p class="lead">lorem ipsum dolor sit amet</p>
+            </div>
+            <div class="span6">
+                <div class="bsa well">
+                    lorem logo
+                </div>
+            </div>
+        </div>
+        <div class="subnav">
+            <ul class="nav nav-pills">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="row">
+                    {{template "body" .}}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+{{end}}

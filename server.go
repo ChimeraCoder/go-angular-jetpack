@@ -13,7 +13,7 @@ import (
 const PROFILE_SESSION = "profile"
 
 var (
-	httpAddr        = flag.String("addr", ":8000", "HTTP server address")
+	httpAddr = flag.String("addr", ":8000", "HTTP server address")
 )
 
 // renderAngularTemplate sets the delimiters for the specificed template(s) to be "[[" and "]]"
@@ -35,6 +35,10 @@ func serveAngularHome(w http.ResponseWriter, r *http.Request) {
 	renderAngularTemplate(w, nil, "templates/index.tmpl")
 }
 
+func servePhones(w http.ResponseWriter, r *http.Request) {
+	renderAngularTemplate(w, nil, "templates/phones.tmpl")
+}
+
 // serveJSON serves the JSON representation of arbitrary data
 // Useful for serving api.example.com/users/1
 func serveJson(w http.ResponseWriter, r *http.Request, data interface{}) {
@@ -51,6 +55,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", serveAngularHome)
+	r.HandleFunc("/phones", servePhones)
 	http.Handle("/static/", http.FileServer(http.Dir("public")))
 	http.Handle("/", r)
 

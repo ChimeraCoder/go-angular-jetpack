@@ -1,32 +1,26 @@
 [[define "body"]]
-<p>
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>Jetpack</h1>
+        <p>
+        This is a sample Go/Angular.js application
+        </p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="/phones">Learn more &raquo;</a></p>
+    </div>
+</div>
 
-    Lorem Ipsum Angularum
-    <div  ng-controller="PhoneListCtrl">
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span2">
-                    <!--Sidebar content-->
-
-                    Search: <input ng-model="query">
-
-                </div>
-                <div class="span10">
-                    <!--Body content-->
-
-                    <ul class="phones">
-                        <li ng-repeat="phone in phones | filter:query">
-                        {{phone.name}}
-                        <p>{{phone.snippet}}</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Example</h2>
+            <p>
+                See an example adapted from the Angular.js Tutorial
+            </p>
+            <p><a class="btn btn-default" role="button" href="/phones">Learn more &raquo;</a></p>
         </div>
     </div>
+</div>
 
 [[end]]
-

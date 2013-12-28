@@ -1,0 +1,27 @@
+[[define "body"]]
+<div class="page-header">
+<h1>Phones</h1>
+</div>
+<div class="well">
+                Search: <input ng-model="query">
+<div class="container" ng-controller="PhoneListCtrl">
+    <div class="row">
+        <div class="row-fluid">
+            </div>
+            <div class="span10">
+                <dl class="phones" ng-repeat="phone in phones | filter:query">
+                    <dt>
+                    {{phone.name}}
+                    </dt>
+                    <dd>{{phone.snippet}}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+[[end]]
+

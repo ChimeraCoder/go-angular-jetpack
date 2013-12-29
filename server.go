@@ -13,10 +13,9 @@ var (
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", handleError(serveAngularHome))
-	r.HandleFunc("/users/{username:[A-Za-z0-9]+}.json", handleError(serveUserJson))
-	r.HandleFunc("/users/{username:[A-Za-z0-9]+}.json", handleError(serveUser))
-	r.HandleFunc("/phones", handleError(servePhones))
+	r.Handle("/", handler(serveAngularHome))
+	r.Handle("/users/{username:[A-Za-z0-9]+}.json", handler(serveUserJson))
+	r.Handle("/phones", handler(servePhones))
 	http.Handle("/static/", http.FileServer(http.Dir("public")))
 	http.Handle("/", r)
 

@@ -11,24 +11,33 @@ import (
 	"time"
 )
 
-// serveAngularHome is an example of a handler function for serving a template
-func serveAngularHome(w http.ResponseWriter, r *http.Request) {
-	renderAngularTemplate(w, nil, "templates/index.tmpl")
+type handler func(w http.ResponseWriter, r *http.Request) error
+
+func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	err := h(w, r)
+	if err != nil {
+		handleError(w, r)
+	}
 }
 
-func servePhones(w http.ResponseWriter, r *http.Request) {
-	renderAngularTemplate(w, nil, "templates/phones.tmpl")
+// serveAngularHome is an example of a handler function for serving a template
+func serveAngularHome(w http.ResponseWriter, r *http.Request) error {
+	return renderAngularTemplate(w, nil, "templates/index.tmpl")
+}
+
+func servePhones(w http.ResponseWriter, r *http.Request) error {
+	return renderAngularTemplate(w, nil, "templates/phones.tmpl")
 }
 
 // serveUserJson is an example of a hander function that returns a JSON response
 // instead of a response with Content-Type: text/html
-func serveUserJson(w http.ResponseWriter, r *http.Request) {
+func serveUserJson(w http.ResponseWriter, r *http.Request) error {
 	vars := mux.Vars(r)
 	username, ok := vars["username"]
 	if !ok {
 		// This shouldn't really be a runtime panic, but it domonstrates how
 		// the HTTP response to the client will handled by handleError()
-		panic(fmt.Errorf("Username not provided"))
+		return fmt.Errorf("Username not provided")
 	}
 
 	// Create a struct that should be returned
@@ -39,41 +48,40 @@ func serveUserJson(w http.ResponseWriter, r *http.Request) {
 	}{username, time.Now().Unix()}
 
 	serveJson(w, r, user)
+	return nil
 }
 
-func serveUser(w http.ResponseWriter, r *http.Request) {
+func serveUser(w http.ResponseWriter, r *http.Request) error {
 	// TODO fill this out
+	return nil
 }
 
 // renderAngularTemplate sets the delimiters for the specificed template(s) to be "[[" and "]]"
 // and then parses and renders all templates specified by the filenames
-func renderAngularTemplate(w http.ResponseWriter, data interface{}, filenames ...string) {
+func renderAngularTemplate(w http.ResponseWriter, data interface{}, filenames ...string) error {
 	t := template.New("base")
 	t.Delims("[[", "]]")
 	s1, err := t.ParseFiles(append(filenames, "templates/angularBase.tmpl")...)
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	// Write to a temporary buffer when executing the template
+	// Otherwise, if ExecuteTemplate causes an error, partially-written content may be sent
 	var b *bytes.Buffer
 	err = s1.ExecuteTemplate(b, "base", nil)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	w.Write(b.Bytes())
+	return nil
 }
 
 // handleError specifies the behavior when a handler function (controller)
 // encounters a runtime panic
-func handleError(f func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if r := recover(); r != nil {
-				log.Printf("ERROR: Recovern from panic: %v", r)
-				http.Error(w, "An unexpected server error has occurred", http.StatusInternalServerError)
-			}
-		}()
-		f(w, r)
-	}
+func handleError(w http.ResponseWriter, r *http.Request) {
+	log.Printf("ERROR: Recovern from panic: %v", r)
+	http.Error(w, "An unexpected server error has occurred", http.StatusInternalServerError)
 }
 
 // serveJson serves the JSON representation of arbitrary data

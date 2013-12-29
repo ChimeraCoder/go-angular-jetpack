@@ -81,5 +81,5 @@ func serveJson(w http.ResponseWriter, r *http.Request, data interface{}) {
 		panic(err)
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	fmt.Fprintf(w, string(bts))
+	w.Write(bts)
 }

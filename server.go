@@ -7,8 +7,6 @@ import (
 	"net/http"
 )
 
-const PROFILE_SESSION = "profile"
-
 var (
 	httpAddr = flag.String("addr", ":8000", "HTTP server address")
 )

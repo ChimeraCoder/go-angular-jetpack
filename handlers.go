@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -53,10 +54,12 @@ func renderAngularTemplate(w http.ResponseWriter, data interface{}, filenames ..
 	if err != nil {
 		panic(err)
 	}
-	err = s1.ExecuteTemplate(w, "base", nil)
+	var b *bytes.Buffer
+	err = s1.ExecuteTemplate(b, "base", nil)
 	if err != nil {
 		panic(err)
 	}
+	w.Write(b.Bytes())
 }
 
 // handleError specifies the behavior when a handler function (controller)

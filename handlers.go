@@ -68,7 +68,7 @@ func renderAngularTemplate(w http.ResponseWriter, data interface{}, filenames ..
 
 	// Write to a temporary buffer when executing the template
 	// Otherwise, if ExecuteTemplate causes an error, partially-written content may be sent
-	var b *bytes.Buffer
+	b := bytes.NewBuffer([]byte{})
 	err = s1.ExecuteTemplate(b, "base", nil)
 	if err != nil {
 		return err

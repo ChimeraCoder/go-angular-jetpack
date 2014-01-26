@@ -16,7 +16,7 @@ type handler func(w http.ResponseWriter, r *http.Request) error
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	err := h(w, r)
 	if err != nil {
-		handleError(w, r)
+		handleError(w, r, err)
 	}
 }
 
@@ -79,8 +79,8 @@ func renderAngularTemplate(w http.ResponseWriter, data interface{}, filenames ..
 
 // handleError specifies the behavior when a handler function (controller)
 // encounters a runtime panic
-func handleError(w http.ResponseWriter, r *http.Request) {
-	log.Printf("ERROR: Recovern from panic: %v", r)
+func handleError(w http.ResponseWriter, r *http.Request, err error) {
+	log.Printf("ERROR: Recovern from panic: %v", err)
 	http.Error(w, "An unexpected server error has occurred", http.StatusInternalServerError)
 }
 
